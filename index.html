@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BirdL | Canary ARC - AI Research & Development</title>
+    <style>
+        :root {
+            --sand: #E7D7C1;
+            --terracotta: #D87C61;
+            --sage: #A3B4A2;
+            --deep-blue: #2C3E50;
+            --sky: #3498DB;
+            --white: #FDFDFD;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--deep-blue);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        header {
+            background-color: var(--deep-blue);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo span {
+            color: var(--terracotta);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--terracotta);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            background-color: var(--deep-blue);
+            transform: translateY(-3px);
+        }
+        
+        nav {
+            background-color: var(--deep-blue);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0 1.5rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--terracotta);
+        }
+        
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--deep-blue);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--terracotta);
+            margin: 1rem auto;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .ai-visual {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background: 
+                radial-gradient(circle at 30% 50%, var(--terracotta), transparent 70%),
+                radial-gradient(circle at 70% 30%, var(--sage), transparent 70%);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--deep-blue);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .research-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .research-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .research-visual {
+            height: 200px;
+            background-color: var(--deep-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .research-visual::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 48%, var(--terracotta) 49%, var(--terracotta) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, var(--terracotta) 49%, var(--terracotta) 51%, transparent 52%);
+            background-size: 20px 20px;
+            opacity: 0.2;
+        }
+        
+        .research-content {
+            padding: 1.5rem;
+        }
+        
+        .contact-methods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--terracotta);
+        }
+        
+        footer {
+            background-color: var(--deep-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+        
+        .footer-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--terracotta);
+        }
+        
+        .canary {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .canary:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+            
+            header {
+                min-height: 50vh;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#research">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <canvas class="header-canvas" id="headerCanvas"></canvas>
+        <div class="logo">Bird<span>L</span></div>
+        <div class="tagline">Canary ARC: AI Research & Development</div>
+        <p>Palm Desert, California | Small-Scale Operations</p>
+        <a href="https://github.com/BIRD-Laboratories" class="btn" target="_blank">View GitHub</a>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">About Canary ARC</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Canary ARC is the AI research division of <strong>BirdL</strong>, operating as a compact development lab based in Palm Desert, California.</p>
+                
+                <p>We focus on experimental approaches to:</p>
+                <ul>
+                    <li>Human-AI communication systems</li>
+                    <li>Open-source AI tooling</li>
+                    <li>Accessible machine learning applications</li>
+                </ul>
+
+                <p>Our work is documented transparently on GitHub, with an emphasis on creating reusable components and clear documentation.</p>
+            </div>
+            <div class="ai-visual" id="aiVisual">
+                <!-- AI nodes will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <h2 class="section-title">Current Projects</h2>
+        <div class="research-grid">
+            <div class="research-card">
+                <div class="research-visual"></div>
+                <div class="research-content">
+                    <h3>Communication Systems</h3>
+                    <p>Developing novel interfaces for human-AI interaction through experimental NLP architectures.</p>
+                    <a href="https://github.com/BIRD-Laboratories" class="btn" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-visual" style="background-color: var(--sage);"></div>
+                <div class="research-content">
+                    <h3>Accessibility Tools</h3>
+                    <p>Creating lightweight AI solutions for accessibility challenges with minimal compute requirements.</p>
+                    <a href="https://github.com/BIRD-Laboratories" class="btn" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-visual" style="background-color: var(--terracotta);"></div>
+                <div class="research-content">
+                    <h3>Open Resources</h3>
+                    <p>Documenting research processes and developing modular components for community use.</p>
+                    <a href="https://github.com/BIRD-Laboratories" class="btn" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem;">
+            For inquiries about collaborations or project contributions:
+        </p>
+        
+        <div class="contact-methods">
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p><a href="mailto:jherrera@birdl.ai.in">jherrera@birdl.ai.in</a></p>
+                <p>For formal inquiries</p>
+            </div>
+            
+            <div class="contact-card">
+                <i class="fab fa-discord"></i>
+                <h3>Discord</h3>
+                <p>puffy310</p>
+                <p>For technical discussions</p>
+            </div>
+            
+            <div class="contact-card">
+                <i class="fab fa-instagram"></i>
+                <h3>Instagram</h3>
+                <p><a href="https://instagram.com/puffywastakenwastaken" target="_blank">@puffywastakenwastaken</a></p>
+                <p>For quick questions</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <canvas class="footer-canvas" id="footerCanvas"></canvas>
+        <div class="logo">Bird<span>L</span></div>
+        <div class="tagline">Canary ARC - AI Research Division</div>
+        <div class="social-links">
+            <a href="https://github.com/BIRD-Laboratories" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://instagram.com/puffywastakenwastaken" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2025 BirdL. All rights reserved.</p>
+        <div class="canary" title="Click me!" onclick="alert('Chirp! 🐦')">🐦</div>
+    </footer>
+
+    <script>
+        // Create animated header background
+        const headerCanvas = document.getElementById('headerCanvas');
+        const headerCtx = headerCanvas.getContext('2d');
+        
+        function resizeHeaderCanvas() {
+            headerCanvas.width = headerCanvas.offsetWidth;
+            headerCanvas.height = headerCanvas.offsetHeight;
+        }
+        
+        window.addEventListener('resize', resizeHeaderCanvas);
+        resizeHeaderCanvas();
+        
+        // Header animation
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * headerCanvas.height;
+            }
+            
+            reset() {
+                this.x = Math.random() * headerCanvas.width;
+                this.y = -20;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = `rgba(255, 255, 255, ${this.opacity})`;
+            }
+            
+            update() {
+                this.y += this.speed;
+                if (this.y > headerCanvas.height) {
+                    this.reset();
+                }
+            }
+            
+            draw() {
+                headerCtx.fillStyle = this.color;
+                headerCtx.beginPath();
+                headerCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                headerCtx.fill();
+            }
+        }
+        
+        const particles = Array(50).fill().map(() => new Particle());
+        
+        function animateHeader() {
+            headerCtx.clearRect(0, 0, headerCanvas.width, headerCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateHeader);
+        }
+        
+        animateHeader();
+        
+        // Create AI visualization
+        const aiVisual = document.getElementById('aiVisual');
+        const nodeCount = 30;
+        
+        for (let i = 0; i < nodeCount; i++) {
+            const node = document.createElement('div');
+            node.className = 'ai-node';
+            node.style.left = `${Math.random() * 90 + 5}%`;
+            node.style.top = `${Math.random() * 90 + 5}%`;
+            node.style.width = `${Math.random() * 10 + 5}px`;
+            node.style.height = node.style.width;
+            node.style.opacity = Math.random() * 0.5 + 0.3;
+            aiVisual.appendChild(node);
+            
+            // Animate nodes
+            setInterval(() => {
+                node.style.transform = `scale(${Math.random() * 0.5 + 0.8})`;
+            }, Math.random() * 2000 + 1000);
+        }
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
